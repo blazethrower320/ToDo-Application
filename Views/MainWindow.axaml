@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ToDoApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="450"
+        x:Class="ToDoApp.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ToDo">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, Auto">
+		<TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="Todo List" FontWeight="Bold" FontSize="30" ></TextBlock>
+		
+		<ScrollViewer Grid.Row="1" Background="Black">
+			<ItemsControl ItemsSource="{Binding TodoActions}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Border BorderBrush="#403735" Background="#403735">
+							<Grid Margin="20">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<TextBlock Grid.Column="0"
+										   Text="{Binding TodoAction}"
+										   Margin="0,0,10,0"
+										   VerticalAlignment="Center"
+										   Foreground="White"/>
+								<Button Grid.Column="1"
+										Click="RemoveButton_Click"
+										Content="Remove"
+										HorizontalAlignment="Right"
+										CommandParameter="{Binding}"
+										Foreground="White"
+										Background="Red"></Button>
+							</Grid>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+		
+		<!--Clear | Text Box | Add -->
+		<Grid Grid.Row="2" ColumnDefinitions="Auto, *, Auto" Margin="5">
+			<Button Grid.Column="0" Content="Clear" Click="ClearList_Click" />
+			<TextBox Grid.Column="1" x:Name="NewToDoTextBox" Margin="20 0" KeyDown="NewToDoTextBox_KeyDown" Watermark="ToDo..." />
+			<Button Grid.Column="2" x:Name="AddButton" Content="Add" Click="AddButton_Click" />
+		</Grid>
+		
+	</Grid>
+	
+</Window>
